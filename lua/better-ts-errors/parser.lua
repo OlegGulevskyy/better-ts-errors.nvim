@@ -32,13 +32,13 @@ function prettify_string(str)
     -- Execute the command and check for errors
     local output, status = vim.fn.systemlist(command)
 
-    if status ~= vim.v.shell_error then
+    if vim.v.shell_error == 0 then
         -- Command executed successfully, process the output
         local postprocess = table.concat(output, "\n"):gsub("(REPLACE_KEY: null)", "...")
         return postprocess
     else
         -- Command failed, return the original string
-        return str
+        return "'" .. str .. "'"
     end
 end
 
