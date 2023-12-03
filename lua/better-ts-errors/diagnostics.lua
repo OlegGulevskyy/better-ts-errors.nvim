@@ -120,7 +120,6 @@ M.handle_body = function(message, diag_count, index, current_line_num)
 end
 
 M.show = function(is_enabled)
-    print("hi")
     local current_line = vim.api.nvim_win_get_cursor(0)[1] - 1
     local diagnostics = vim.diagnostic.get(0, { lnum = current_line })
 
