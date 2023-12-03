@@ -3,30 +3,24 @@
 </p>
 
 <p align="center">
-    > A catch phrase that describes your plugin.
+    > If you are unlucky enough to work with TypeScript and stuck in Vim mode (using Neovim tho), then at least have a better formatted TypeScript errors.
 </p>
-
-<div align="center">
-    > Drag your video (<10MB) here to host it for free on GitHub.
-</div>
-
-<div align="center">
-
-> Videos don't work on GitHub mobile, so a GIF alternative can help users.
-
-_[GIF version of the showcase video for mobile users](SHOWCASE_GIF_LINK)_
-
-</div>
 
 ## ⚡️ Features
 
-> Write short sentences describing your plugin features
+> Will be added when possible..
 
-- FEATURE 1
-- FEATURE ..
-- FEATURE N
+- Hihglights variables in error messages
+- Uses your current Theme colors, no funky stuff of my own
+- Does its best to format JS objects (if they are or TS types mentioned in the error)
 
 ## 📋 Installation
+### If you want JS Objects in error messages to be formatted, ensure you have Prettier installed and available in PATH.
+```
+npm install -g prettier
+```
+
+> I haven't used any other package managers than folke/lazy.nvim, so not sure exactly how to install it via others, because you need to specify dependency.
 
 <div align="center">
 <table>
@@ -47,9 +41,9 @@ _[GIF version of the showcase video for mobile users](SHOWCASE_GIF_LINK)_
 
 ```lua
 -- stable version
+-- No idea how to set dependency in packer, pls let me know if you use it
+-- You need to have "MunifTanjim/nui.nvim" as Dependency
 use {"better-ts-errors.nvim", tag = "*" }
--- dev version
-use {"better-ts-errors.nvim"}
 ```
 
 </td>
@@ -63,10 +57,9 @@ use {"better-ts-errors.nvim"}
 <td>
 
 ```lua
--- stable version
+-- No idea how to set dependency in vim-plug, pls let me know if you use it
+-- You need to have "MunifTanjim/nui.nvim" as Dependency
 Plug "better-ts-errors.nvim", { "tag": "*" }
--- dev version
-Plug "better-ts-errors.nvim"
 ```
 
 </td>
@@ -81,9 +74,13 @@ Plug "better-ts-errors.nvim"
 
 ```lua
 -- stable version
-require("lazy").setup({{"better-ts-errors.nvim", version = "*"}})
--- dev version
-require("lazy").setup({"better-ts-errors.nvim"})
+return {
+  "OlegGulevskyy/better-ts-errors.nvim",
+  dependencies = { "MunifTanjim/nui.nvim" },
+  config = {
+    keymap = "<leader>dd"
+  }
+}
 ```
 
 </td>
@@ -94,7 +91,7 @@ require("lazy").setup({"better-ts-errors.nvim"})
 
 ## ☄ Getting started
 
-> Describe how to use the plugin the simplest way
+Simple thing at the moment - set your keymap via config options `keymap` and use it to `toggle` pretty TS error message
 
 ## ⚙ Configuration
 
@@ -107,26 +104,34 @@ require("lazy").setup({"better-ts-errors.nvim"})
 
 ```lua
 require("better-ts-errors").setup({
-    -- you can copy the full list from lua/better-ts-errors/config.lua
+    keymap = '<leader>dd' -- Toggling keymap
 })
 ```
 
 </details>
 
-## 🧰 Commands
-
-|   Command   |         Description        |
-|-------------|----------------------------|
-|  `:Toggle`  |     Enables the plugin.    |
-
 ## ⌨ Contributing
 
 PRs and issues are always welcome. Make sure to provide as much context as possible when opening one.
 
-## 🗞 Wiki
-
-You can find guides and showcase of the plugin on [the Wiki](https://github.com/OlegGulevskyy/better-ts-errors.nvim/wiki)
-
 ## 🎭 Motivations
 
-> If alternatives of your plugin exist, you can provide some pros/cons of using yours over the others.
+I am forced to work with TypeScript, and at times it can be quite alright, but one thing that sucks from it is its error messages.
+This small plugin is inspired by `pretty-ts-errors` for VSCode users.
+https://github.com/yoavbls/pretty-ts-errors
+
+So, I'd like to have some niceties in Neovim also, that's it for Motivations section.
+
+### Few things to note:
+- I suck at Lua. It's my very first Lua project. I have no idea about Lua's conventions, best practices etc. I am happy to learn and adjust, if you'd be kind enough to point out, in a friendly manner.
+- I suck at Neovim plugins. I used a plugins boilerplate (which you can find here - https://github.com/shortcuts/neovim-plugin-boilerplate) to create this plugin. Again, happy to learn and improve, if you are kind enough to point out mistakes. Better yet - suggest improvements in a form of a PR, that I am more than happy to accept.
+- In general I am a mediocre programmer, so any weird logic bits you find (and I know there is some and some more), please do let me know, with a way to  improve it. I am very open to it.
+- I just needed something working and I didn't plan to open source it as a plugin.
+- I plan to add features
+
+
+## 🪶 Sort of roadmap
+- Go to definition of types mentioned in the actual error
+- More robust highlighting system (highlight different variable types in different colors)
+- Better parsing (show an actual problem of huge nested TS errors on top as first line as these are usually where the issue is really coming from)
+- Better testing (I haven't thoroughly tested it at all)
