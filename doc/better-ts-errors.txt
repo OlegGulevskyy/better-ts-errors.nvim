@@ -1,0 +1,28 @@
+==============================================================================
+------------------------------------------------------------------------------
+                                                        *BetterTsErrors.options*
+                            `BetterTsErrors.options`
+Your plugin configuration with its default values.
+
+Default values:
+>
+  BetterTsErrors.options = {
+      -- Prints useful logs about what event are triggered, and reasons actions are executed.
+      debug = false,
+  }
+
+<
+
+------------------------------------------------------------------------------
+                                                        *BetterTsErrors.setup()*
+                       `BetterTsErrors.setup`({options})
+Define your better-ts-errors setup.
+
+Parameters~
+{options} `(table)` Module config table. See |BetterTsErrors.options|.
+
+Usage~
+`require("better-ts-errors").setup()` (add `{}` with your |BetterTsErrors.options| table)
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:

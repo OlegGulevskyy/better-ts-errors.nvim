@@ -1,113 +1,132 @@
 <p align="center">
-  <h1 align="center">🔌  Neovim plugin boilerplate</h2>
+  <h1 align="center">better-ts-errors.nvim</h2>
 </p>
 
 <p align="center">
-    Plug and play Neovim plugin boilerplate with pre-configured CI, CD, linter, docs and tests.
+    > A catch phrase that describes your plugin.
 </p>
+
+<div align="center">
+    > Drag your video (<10MB) here to host it for free on GitHub.
+</div>
+
+<div align="center">
+
+> Videos don't work on GitHub mobile, so a GIF alternative can help users.
+
+_[GIF version of the showcase video for mobile users](SHOWCASE_GIF_LINK)_
+
+</div>
 
 ## ⚡️ Features
 
-- interactive `setup` script
-- README.md template
-- Perfect for open-source:
-  - CODEOWNERS file for PR auto-assign
-  - Issues and PR templates
-- CD leveraging [release-please-action](https://github.com/google-github-actions/release-please-action)
-- CI:
-  - Test running on multiple Neovim version
-  - Lint check
-  - Documentation generation check
-  - Minimal run time, ideal for free plans
-- Docs with [mini.nvim `doc` plugin](https://github.com/echasnovski/mini.nvim/blob/main/lua/mini/doc.lua)
-- Tests with [mini.nvim `test` plugin](https://github.com/echasnovski/mini.nvim/blob/main/lua/mini/test.lua)
-- Linting with [Stylua](https://github.com/JohnnyMorganz/StyLua)
+> Write short sentences describing your plugin features
+
+- FEATURE 1
+- FEATURE ..
+- FEATURE N
 
 ## 📋 Installation
 
-> **Note**:
-> This section is only required if you wish to use the linter provided by the template.
+<div align="center">
+<table>
+<thead>
+<tr>
+<th>Package manager</th>
+<th>Snippet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
 
-- [Install Stylua linter](https://github.com/JohnnyMorganz/StyLua#installation)
+[wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim)
+
+</td>
+<td>
+
+```lua
+-- stable version
+use {"better-ts-errors.nvim", tag = "*" }
+-- dev version
+use {"better-ts-errors.nvim"}
+```
+
+</td>
+</tr>
+<tr>
+<td>
+
+[junegunn/vim-plug](https://github.com/junegunn/vim-plug)
+
+</td>
+<td>
+
+```lua
+-- stable version
+Plug "better-ts-errors.nvim", { "tag": "*" }
+-- dev version
+Plug "better-ts-errors.nvim"
+```
+
+</td>
+</tr>
+<tr>
+<td>
+
+[folke/lazy.nvim](https://github.com/folke/lazy.nvim)
+
+</td>
+<td>
+
+```lua
+-- stable version
+require("lazy").setup({{"better-ts-errors.nvim", version = "*"}})
+-- dev version
+require("lazy").setup({"better-ts-errors.nvim"})
+```
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 ## ☄ Getting started
 
-The following checklist is all your need to do to start writing your first plugin.
+> Describe how to use the plugin the simplest way
 
-### 1 - Clone the template repository
+## ⚙ Configuration
 
-#### via HTTPs
+> The configuration list sometimes become cumbersome, making it folded by default reduce the noise of the README file.
 
-```sh
-git clone https://github.com/shortcuts/neovim-plugin-boilerplate.git ~/my-awesome-plugin.nvim
+<details>
+<summary>Click to unfold the full list of options with their default values</summary>
+
+> **Note**: The options are also available in Neovim by calling `:h better-ts-errors.options`
+
+```lua
+require("better-ts-errors").setup({
+    -- you can copy the full list from lua/better-ts-errors/config.lua
+})
 ```
 
-#### via SSH
+</details>
 
-```sh
-git clone git@github.com:shortcuts/neovim-plugin-boilerplate.git ~/my-awesome-plugin.nvim
-```
+## 🧰 Commands
 
-#### via GH
-```sh
-gh repo create my-awesome-plugin --template shortcuts/neovim-plugin-boilerplate --public --clone
-```
-
-### 2 - Replace placeholder names with your plugin name
-
-#### Automatically
-
-The [setup script](https://github.com/shortcuts/neovim-plugin-boilerplate/blob/main/scripts/setup.sh) will rename files and placeholder names for you. Once done, you can remove anything `setup` related if you want to.
-
-```sh
-# interactive
-make setup
-
-# automated
-USERNAME=my-github-username PLUGIN_NAME=my-awesome-plugin REPOSITORY_NAME=my-awesome-plugin.nvim make setup
-```
-
-#### Manually
-
-> **Note**:
-> The placeholder names are purposely written with different casing. Make sure to keep it.
-
-#### File names
-
-```sh
-rm -rf doc
-mv plugin/your-plugin-name.lua plugin/my-awesome-plugin.lua
-mv lua/your-plugin-name lua/my-awesome-plugin
-mv README_TEMPLATE.md README.md 
-
-```
-
-#### Search and replace placeholder occurrences:
-
-```vim
-:vimgrep /YourPluginName/ **/*
-:cfdo %s/YourPluginName/MyAwesomePlugin/g | update
-
-:vimgrep /your-plugin-name/ **/* .github/**
-:cfdo %s/your-plugin-name/my-awesome-plugin/g | update
-
-:vimgrep /YOUR_GITHUB_USERNAME/ .github/** **/*.md
-:cfdo %s/YOUR_GITHUB_USERNAME/shortcuts/g | update
-
-:vimgrep /YOUR_REPOSITORY_NAME/ **/*.md
-:cfdo %s/YOUR_REPOSITORY_NAME/my-awesome-plugin.nvim/g | update
-```
-
-### 3 - Code
-
-You can now start writing your plugin, make sure the following commands work:
-1. `make deps` to install docs/tests dependencies
-2. `make lint` to format the code
-3. `make documentation` to generate the documentation
-4. `make test` to run the tests
-
-Enjoy!
+|   Command   |         Description        |
+|-------------|----------------------------|
+|  `:Toggle`  |     Enables the plugin.    |
 
 ## ⌨ Contributing
 
 PRs and issues are always welcome. Make sure to provide as much context as possible when opening one.
+
+## 🗞 Wiki
+
+You can find guides and showcase of the plugin on [the Wiki](https://github.com/OlegGulevskyy/better-ts-errors.nvim/wiki)
+
+## 🎭 Motivations
+
+> If alternatives of your plugin exist, you can provide some pros/cons of using yours over the others.
