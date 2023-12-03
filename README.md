@@ -4,8 +4,15 @@
 
 <p align="center">
     > If you are unlucky enough to work with TypeScript and stuck in Vim mode (using Neovim tho), then at least have a better formatted TypeScript errors.
-![alt text](https://github.com/OlegGulevskyy/better-ts-errors.nvim/blob/master/images/demo_1.png?raw=true)
 </p>
+
+## Demo screenshots
+<details>
+<summary>Click to see demo images</summary>
+<img src="https://raw.githubusercontent.com/OlegGulevskyy/better-ts-errors.nvim/main/images/demo_1.png" alt="demo 1">
+</details>
+
+
 
 ## ⚡️ Features
 
