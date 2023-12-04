@@ -1,15 +1,26 @@
 local M = {}
 
+function allow_prettify()
+    if _G.BetterTsErrors.config ~= nil then
+        return _G.BetterTsErrors.config.enable_prettify
+    end
+    return false
+end
+
+function wrap_match_quotes(match)
+    return "'" .. match .. "'"
+end
+
 M.get_variable_pos = function(line, current_line_num)
     local pattern = "'(.-)'"
     local matches = {}
     for match in string.gmatch(line, pattern) do
         -- Find the position of the current match
-        local start_pos, end_pos = string.find(line, "'" .. match .. "'", 1, true)
+        local start_pos, end_pos = string.find(line, wrap_match_quotes(match), 1, true)
 
         -- Check if match is JS object, try to prettify it
         local is_js_object = string.find(match, "{", 1, true) ~= nil
-        local match_res = is_js_object and prettify_string(match) or match
+        local match_res = (is_js_object and allow_prettify()) and prettify_string(match) or wrap_match_quotes(match)
         table.insert(matches,
             {
                 match = match_res,
@@ -38,7 +49,7 @@ function prettify_string(str)
         return postprocess
     else
         -- Command failed, return the original string
-        return "'" .. str .. "'"
+        return wrap_match_quotes(str)
     end
 end
 
