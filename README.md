@@ -53,7 +53,7 @@ npm install -g prettier
 -- stable version
 -- No idea how to set dependency in packer, pls let me know if you use it
 -- You need to have "MunifTanjim/nui.nvim" as Dependency
-use {"better-ts-errors.nvim", tag = "*" }
+use {"OlegGulevskyy/better-ts-errors.nvim", tag = "*" }
 ```
 
 </td>
