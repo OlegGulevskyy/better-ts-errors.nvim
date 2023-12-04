@@ -4,6 +4,8 @@
 
 <p align="center">
     > If you are unlucky enough to work with TypeScript and stuck in Vim mode (using Neovim tho), then at least have a better formatted TypeScript errors.
+    https://gifyu.com/image/Sipos
+    https://gifyu.com/image/Sipox
 </p>
 
 ## Demo screenshots
