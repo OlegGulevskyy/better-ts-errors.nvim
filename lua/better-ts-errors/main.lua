@@ -1,4 +1,5 @@
 local D = require("better-ts-errors.util.debug")
+local Gt = require("better-ts-errors.goto")
 local diagnostics = require("better-ts-errors.diagnostics")
 
 -- internal methods
@@ -44,6 +45,18 @@ function BetterTsErrors.disable()
 
     diagnostics.show(false)
     return S
+end
+
+function BetterTsErrors.goToDefinition()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local params = vim.lsp.util.make_position_params()
+    local word = Gt.get_word_under_cursor()
+
+    if S.enabled then
+        BetterTsErrors.disable()
+    end
+
+    Gt.find_and_goto_symbol(word)
 end
 
 return BetterTsErrors
