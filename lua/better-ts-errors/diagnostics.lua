@@ -1,7 +1,7 @@
 local parser = require("better-ts-errors.parser")
 local codes = require("better-ts-errors.util.codes")
 local severity = require("better-ts-errors.util.severity")
-local strings = require("better-ts-errors.util.strings")
+local strings_utils = require("better-ts-errors.util.strings")
 local popup = require("better-ts-errors.popup")
 local popup = require("better-ts-errors.popup")
 
@@ -39,7 +39,7 @@ M.handle_body = function(message, diag_count, index, current_line_num)
     local normalized_line_nr = (current_line_num == 0) and 0 or (current_line_num - 1)
     local message_start_pos = normalized_line_nr + 2
 
-    local body_lines = strings.break_new_lines(message)
+    local body_lines = strings_utils.break_new_lines(message)
     -- Ensure at least 2 rows for each message
     if #body_lines < 2 then
         table.insert(body_lines, "") -- Add an extra empty line
@@ -53,6 +53,7 @@ M.handle_body = function(message, diag_count, index, current_line_num)
     for _, line in ipairs(body_lines) do
         local temp_vars = parser.get_variable_pos(line, message_start_pos + i)
         local has_raw_object = false
+        local identation_size = strings_utils.get_padding(line)
 
         for _, temp_var in ipairs(temp_vars) do
             if temp_var.is_raw_object then
@@ -68,14 +69,14 @@ M.handle_body = function(message, diag_count, index, current_line_num)
                 end
 
                 -- Insert the prettified lines
-                local lines = strings.break_new_lines(temp_var.match)
-                for _, k in ipairs(lines) do
-                    table.insert(new_body_lines, k)
+                local lines = strings_utils.break_new_lines(temp_var.match)
+                for _, l in ipairs(lines) do
+                    table.insert(new_body_lines, string.rep(" ", identation_size) .. l)
                 end
 
                 -- Insert the second part into new_body_lines
-                if part2 ~= "" then
-                    table.insert(new_body_lines, part2)
+                if part2 ~= "" and part2 ~= "." then
+                    table.insert(new_body_lines, string.rep(" ", identation_size) .. part2)
                 end
 
                 added_lines_count = added_lines_count + #lines - 1

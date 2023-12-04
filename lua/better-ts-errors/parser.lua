@@ -63,7 +63,6 @@ function prettify_string(str)
     end
 
     if M.prettify_cache[hashed] ~= nil then
-        print("CACHE HIT")
         return M.prettify_cache[hashed]
     end
 
