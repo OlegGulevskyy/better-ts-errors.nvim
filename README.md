@@ -13,7 +13,6 @@
 <summary>Click to see demo images</summary>
 <img src="https://raw.githubusercontent.com/OlegGulevskyy/better-ts-errors.nvim/main/images/demo_1.png" alt="demo 1">
 <img src="https://raw.githubusercontent.com/OlegGulevskyy/better-ts-errors.nvim/main/images/demo_2.png" alt="demo 2">
-<img src="https://raw.githubusercontent.com/OlegGulevskyy/better-ts-errors.nvim/main/images/demo_3.png" alt="demo 3">
 </details>
 
 
