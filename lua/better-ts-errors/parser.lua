@@ -1,4 +1,9 @@
-local M = {}
+local hash_util = require("better-ts-errors.util.hash")
+local strings_util = require("better-ts-errors.util.strings")
+
+local M = {
+    prettify_cache = {}
+}
 
 function allow_prettify()
     if _G.BetterTsErrors.config ~= nil then
@@ -34,18 +39,45 @@ M.get_variable_pos = function(line, current_line_num)
     return matches
 end
 
+function contains_union_type(str)
+    return string.find(str, "|")
+end
+
+function string_to_temp_ts_type(str)
+    return "type BTE_REPLACE_KEY = " .. str
+end
+
+-- Best effort for now
+function temp_ts_type_to_string(str)
+    local pattern = "^type BTE_REPLACE_KEY =[%s%S](.*)"
+    local matched = string.match(str, pattern)
+    return matched or str
+end
+
 function prettify_string(str)
-    -- If JS object is too big, it will have "...;" in its children
-    -- Need to replace those temporarily, otherwise prettier will fail
-    local preprocess = str:gsub("(%.%.%.%;)", " REPLACE_KEY: null ")
+    local hashed = hash_util.simpleHash(str)
+    local has_union = contains_union_type(str)
+
+    if has_union then
+        str = string_to_temp_ts_type(str)
+    end
+
+    if M.prettify_cache[hashed] ~= nil then
+        return M.prettify_cache[hashed]
+    end
+
+    local preprocess = str:gsub("(%.%.%.%;)", " BTE_REPLACE_KEY: null ")
     local command = "echo \"" .. preprocess .. "\" | prettier --parser typescript"
 
     -- Execute the command and check for errors
-    local output, status = vim.fn.systemlist(command)
-
+    local output = vim.fn.systemlist(command)
     if vim.v.shell_error == 0 then
-        -- Command executed successfully, process the output
-        local postprocess = table.concat(output, "\n"):gsub("(REPLACE_KEY: null)", "...")
+        local postprocess = table.concat(output, "\n"):gsub("(BTE_REPLACE_KEY: null)", "...")
+        if has_union then
+            postprocess = temp_ts_type_to_string(postprocess)
+        end
+
+        M.prettify_cache[hashed] = postprocess
         return postprocess
     else
         -- Command failed, return the original string
