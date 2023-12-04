@@ -76,7 +76,6 @@ function prettify_string(str)
         if has_union then
             postprocess = temp_ts_type_to_string(postprocess)
         end
-        -- postprocess = strings_util.trim_string(postprocess)
 
         M.prettify_cache[hashed] = postprocess
         return postprocess
