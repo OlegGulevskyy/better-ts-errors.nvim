@@ -37,7 +37,7 @@ end
 -- Prepare body
 M.handle_body = function(message, diag_count, index, current_line_num)
     local normalized_line_nr = (current_line_num == 0) and 0 or (current_line_num - 1)
-    local message_start_pos = normalized_line_nr + 2
+    local message_start_row = normalized_line_nr + 2
 
     local body_lines = strings_utils.break_new_lines(message)
     -- Ensure at least 2 rows for each message
@@ -47,11 +47,12 @@ M.handle_body = function(message, diag_count, index, current_line_num)
 
     local new_body_lines = {}
     local vars = {}
-    local i = 0
     local added_lines_count = 0
+    local prettified_lines = {}
 
+    local line_index = 0
     for _, line in ipairs(body_lines) do
-        local temp_vars = parser.get_variable_pos(line, message_start_pos + i)
+        local temp_vars = parser.get_variable_pos(line, message_start_row + line_index)
         local has_raw_object = false
         local identation_size = strings_utils.get_padding(line)
 
@@ -63,6 +64,10 @@ M.handle_body = function(message, diag_count, index, current_line_num)
                 local part1 = string.sub(line, 1, temp_var.col_start)
                 local part2 = string.sub(line, temp_var.col_end + 1)
 
+                -- Calculate start position for prettified lines
+                -- Determine the starting row for the prettified lines
+                local prettified_start = message_start_row + #new_body_lines
+
                 -- Insert the first part into new_body_lines
                 if part1 ~= "" then
                     table.insert(new_body_lines, part1)
@@ -70,9 +75,17 @@ M.handle_body = function(message, diag_count, index, current_line_num)
 
                 -- Insert the prettified lines
                 local lines = strings_utils.break_new_lines(temp_var.match)
+
+
                 for _, l in ipairs(lines) do
                     table.insert(new_body_lines, string.rep(" ", identation_size) .. l)
                 end
+
+                table.insert(prettified_lines, {
+                    line_start = prettified_start + 2, -- +2 for the header
+                    line_end = prettified_start + #lines - 1,
+                    indentation = identation_size
+                })
 
                 -- Insert the second part into new_body_lines
                 if part2 ~= "" and part2 ~= "." then
@@ -90,7 +103,7 @@ M.handle_body = function(message, diag_count, index, current_line_num)
             table.insert(new_body_lines, line)
         end
 
-        i = i + 1
+        line_index = line_index + 1
     end
 
     body_lines = new_body_lines
@@ -99,7 +112,7 @@ M.handle_body = function(message, diag_count, index, current_line_num)
     local new_vars = {}
     local line_i = 0
     for _, line in ipairs(body_lines) do
-        local temp_vars = parser.get_variable_pos(line, message_start_pos + line_i)
+        local temp_vars = parser.get_variable_pos(line, message_start_row + line_i)
         for _, temp_var in ipairs(temp_vars) do
             table.insert(new_vars, temp_var)
         end
@@ -114,10 +127,9 @@ M.handle_body = function(message, diag_count, index, current_line_num)
         table.insert(body_lines, separator)
     end
 
-    local message_end_pos = message_start_pos + #body_lines
-
-    vim.api.nvim_buf_set_lines(popup.get_buffnr(), message_start_pos, message_end_pos, false, body_lines)
-    return message_end_pos, new_vars
+    local message_end_pos = message_start_row + #body_lines
+    vim.api.nvim_buf_set_lines(popup.get_buffnr(), message_start_row, message_end_pos, false, body_lines)
+    return message_end_pos, new_vars, prettified_lines
 end
 
 M.show = function(is_enabled)
@@ -134,12 +146,15 @@ M.show = function(is_enabled)
     local code_hl_ranges = {}
     local vars_hl_ranges = {}
     local current_line_num = 0
+    local prettified = nil
 
     for index, diagnostic in ipairs(diagnostics) do
         local header_lines, severity_pos, code_pos = M.handle_header(diagnostic.severity, diagnostic.code, #diagnostics,
             current_line_num)
 
-        local message_end_pos, vars = M.handle_body(diagnostic.message, #diagnostics, index, current_line_num)
+        local message_end_pos, vars, prettified_ranges = M.handle_body(diagnostic.message, #diagnostics, index,
+            current_line_num)
+        prettified = prettified_ranges
 
         table.insert(severity_hl_ranges, severity_pos)
         table.insert(code_hl_ranges, code_pos)
@@ -165,6 +180,16 @@ M.show = function(is_enabled)
     for _, range in ipairs(vars_hl_ranges) do
         local hl_group = "String"
         vim.api.nvim_buf_add_highlight(popup.get_buffnr(), -1, hl_group, range.line, range.col_start, range.col_end)
+    end
+
+    -- If we have some prettified objects, highlight them
+    if prettified ~= nil then
+        for _, range in ipairs(prettified) do
+            local hl_group = "BufferDefaultCurrentADDED"
+            for i = (range.line_start - 1), (range.line_end + 1) do
+                vim.api.nvim_buf_add_highlight(popup.get_buffnr(), -1, hl_group, i, range.indentation, popup.get_width())
+            end
+        end
     end
 end
 
