@@ -1,7 +1,8 @@
 local M = require("better-ts-errors.main")
 
 local BetterTsErrors = {}
-local DefaultKeyMap = "<leader>dd"
+local DefaultToggleKeyMap = "<leader>dd"
+local DefaultGoToDefinitionKeyMap = "<leader>dx"
 
 --- Your plugin configuration with its default values.
 ---
@@ -10,7 +11,10 @@ local DefaultKeyMap = "<leader>dd"
 BetterTsErrors.options = {
     -- Prints useful logs about what event are triggered, and reasons actions are executed.
     debug = false,
-    keymap = nil,
+    keymaps = {
+        toggle = DefaultToggleKeyMap,
+        go_to_definition = DefaultGoToDefinitionKeyMap,
+    },
     enable_prettify = true,
 }
 
@@ -24,10 +28,15 @@ function BetterTsErrors.setup(options)
 
     BetterTsErrors.options = vim.tbl_deep_extend("keep", options, BetterTsErrors.options)
 
-    local keymap = BetterTsErrors.options.keymap or DefaultKeyMap
+    local keymap = BetterTsErrors.options.keymaps or
+        { toggle = DefaultToggleKeyMap, go_to_definition = DefaultGoToDefinitionKeyMap }
 
-    vim.api.nvim_set_keymap('n', keymap, '<cmd>lua BetterTsErrors.toggle()<CR>',
+    vim.api.nvim_set_keymap('n', keymap.toggle, '<cmd>lua BetterTsErrors.toggle()<CR>',
         { noremap = true, silent = true, desc = 'Show Better TS Error' })
+
+    vim.api.nvim_set_keymap('n', keymap.go_to_definition, '<cmd>lua BetterTsErrors.goToDefinition()<CR>',
+        { noremap = true, silent = true, desc = 'Go to Error Definition' })
+
     return BetterTsErrors.options
 end
 

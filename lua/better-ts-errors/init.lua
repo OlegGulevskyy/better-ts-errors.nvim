@@ -36,6 +36,10 @@ function BetterTsErrors.setup(opts)
     _G.BetterTsErrors.config = require("better-ts-errors.config").setup(opts)
 end
 
+function BetterTsErrors.goToDefinition()
+    M.goToDefinition()
+end
+
 _G.BetterTsErrors = BetterTsErrors
 
 return _G.BetterTsErrors

@@ -3,8 +3,6 @@ local codes = require("better-ts-errors.util.codes")
 local severity = require("better-ts-errors.util.severity")
 local strings_utils = require("better-ts-errors.util.strings")
 local popup = require("better-ts-errors.popup")
-local popup = require("better-ts-errors.popup")
-
 local M = {}
 
 -- Prepare header
@@ -140,6 +138,7 @@ M.show = function(is_enabled)
         popup.show()
     else
         popup.hide()
+        return
     end
 
     local severity_hl_ranges = {}

@@ -88,7 +88,10 @@ return {
   "OlegGulevskyy/better-ts-errors.nvim",
   dependencies = { "MunifTanjim/nui.nvim" },
   config = {
-    keymap = "<leader>dd"
+    keymaps = {
+      toggle = '<leader>dd' -- default '<leader>dd'
+      go_to_definition = '<leader>dx' default '<leader>dx'
+    }
   }
 }
 ```
@@ -114,7 +117,10 @@ Simple thing at the moment - set your keymap via config options `keymap` and use
 
 ```lua
 require("better-ts-errors").setup({
-    keymap = '<leader>dd' -- Toggling keymap
+    keymaps = {
+      toggle = '<leader>dd' -- Toggling keymap
+      go_to_definition = '<leader>dx' -- Go to problematic type from popup window
+    }
 })
 ```
 
