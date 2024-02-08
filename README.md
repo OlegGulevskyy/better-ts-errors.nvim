@@ -119,7 +119,7 @@ Simple thing at the moment - set your keymap via config options `keymap` and use
 ```lua
 require("better-ts-errors").setup({
     keymaps = {
-      toggle = '<leader>dd' -- Toggling keymap
+      toggle = '<leader>dd', -- Toggling keymap
       go_to_definition = '<leader>dx' -- Go to problematic type from popup window
     }
 })
