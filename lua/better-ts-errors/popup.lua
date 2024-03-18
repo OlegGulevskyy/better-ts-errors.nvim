@@ -19,6 +19,7 @@ local popup = Popup({
 
 M.show = function()
     popup:mount()
+    popup:update_layout()
     M.is_open = true
 
     popup:on(event.BufLeave, function()
