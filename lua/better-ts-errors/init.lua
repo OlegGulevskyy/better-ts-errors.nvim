@@ -42,7 +42,7 @@ end
 
 _G.BetterTsErrors = BetterTsErrors
 
-vim.api.nvim_create_user_command("BetterTsError", function(opts)
+vim.api.nvim_create_user_command("TsBetterError", function(opts)
     local action = opts.fargs[1]
     if action == "toggle" then
         M.toggle()
