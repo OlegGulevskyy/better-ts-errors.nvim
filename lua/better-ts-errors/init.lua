@@ -42,4 +42,15 @@ end
 
 _G.BetterTsErrors = BetterTsErrors
 
+vim.api.nvim_create_user_command("BetterTsError", function(opts)
+    local action = opts.fargs[1]
+    if action == "toggle" then
+        M.toggle()
+    elseif action == "go_to_definition" then
+        M.goToDefinition()
+    else
+        print("Unknown action: " .. action)
+    end
+end, { nargs = 1 })
+
 return _G.BetterTsErrors
