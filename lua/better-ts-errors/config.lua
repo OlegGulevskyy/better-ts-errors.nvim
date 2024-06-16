@@ -1,6 +1,4 @@
 local BetterTsErrors = {}
-local DefaultToggleKeyMap = "<leader>dd"
-local DefaultGoToDefinitionKeyMap = "<leader>dx"
 
 --- Your plugin configuration with its default values.
 ---
@@ -9,10 +7,6 @@ local DefaultGoToDefinitionKeyMap = "<leader>dx"
 BetterTsErrors.options = {
     -- Prints useful logs about what event are triggered, and reasons actions are executed.
     debug = false,
-    keymaps = {
-        toggle = DefaultToggleKeyMap,
-        go_to_definition = DefaultGoToDefinitionKeyMap,
-    },
     enable_prettify = false,
 }
 
