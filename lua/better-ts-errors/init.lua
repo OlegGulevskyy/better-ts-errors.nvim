@@ -51,6 +51,11 @@ vim.api.nvim_create_user_command("BetterTsError", function(opts)
     else
         print("Unknown action: " .. action)
     end
-end, { nargs = 1 })
+end, {
+    nargs = 1,
+    complete = function()
+        return { "toggle", "go_to_definition" }
+    end,
+})
 
 return _G.BetterTsErrors
