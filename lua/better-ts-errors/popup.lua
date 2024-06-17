@@ -15,6 +15,9 @@ local popup = Popup({
         width = "80%",
         height = "60%",
     },
+    buf_options = {
+        filetype = "typescript-errors",
+    },
 })
 
 M.show = function()
