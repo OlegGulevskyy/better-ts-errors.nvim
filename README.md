@@ -52,9 +52,13 @@ npm install -g prettier
 
 ```lua
 -- stable version
--- No idea how to set dependency in packer, pls let me know if you use it
 -- You need to have "MunifTanjim/nui.nvim" as Dependency
-use {"OlegGulevskyy/better-ts-errors.nvim" }
+use {
+  "OlegGulevskyy/better-ts-errors.nvim",
+   requires = {
+     {'MunifTanjim/nui.nvim'}
+   }
+}
 ```
 
 </td>
